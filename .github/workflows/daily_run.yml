@@ -16,7 +16,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.16'  # Specify your Go version here
+          go-version: '1.23'  # Specify your Go version here
 
       - name: Run Go Script
         run: go run main.go
