@@ -57,7 +57,7 @@ func FetchAds(endpoint, adminSecret string) ([]AdItem, error) {
 		ads(where: {
 			status: {_eq: "Published"},
 			category_id: {_eq: "9ca82557-9085-40da-82db-c9a3c3d3f3a6"},
-			created_at: { _gte: $last24Hours }
+			updated_at: { _gte: $last24Hours }
 		}) {
 			id
 			draft_id
