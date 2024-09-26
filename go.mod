@@ -1,6 +1,6 @@
 module google-mercent-pipeline
 
-go 1.23.1
+go 1.23
 
 require (
 	github.com/machinebox/graphql v0.2.2 // indirect
