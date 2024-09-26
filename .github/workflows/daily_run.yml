@@ -2,7 +2,7 @@ name: Daily Run
 
 on:
   schedule:
-    - cron: '25 11 * * *'  # Runs daily at 9:20 AM UTC
+    - cron: '20 9 * * *'  # Runs daily at 9:20 AM UTC
   workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
@@ -16,16 +16,23 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.23'  # Specify your Go version here
+          go-version: '1.23'  # Ensure this matches the Go version in your go.mod
 
       - name: Run Go Script
         run: go run main.go
 
-      - name: Commit and push changes
+      - name: Check for changes in products.xml
+        id: check_changes
+        run: |
+          git diff --quiet products.xml || echo "::set-output name=changes::true"
+
+      - name: Commit and push if changes
+        if: steps.check_changes.outputs.changes == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add -A
-          git commit -m "Update data" --allow-empty
-          # Ensure your repository URL is using the secret PAT for authentication
+          git add products.xml
+          git commit -m "Update products.xml"
+          # Using the secret PAT for authentication
           git push https://${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+
