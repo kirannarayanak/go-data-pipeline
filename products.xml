@@ -4,5 +4,16 @@
     <title>Ayshei</title>
     <link>https://ayshei.com/</link>
     <description>Your one-stop shop for the latest fashion items</description>
+    <item>
+      <g:id>2080453634</g:id>
+      <g:title>Apple Watch 8</g:title>
+      <g:description>Selling my apple watch 8 (41 mm) with originl straps and charger. Box isn't included</g:description>
+      <g:link>https://ayshei.com/product/fc610163-2b03-4b36-9f98-9e2ff683ae4e</g:link>
+      <g:image_link>https://ayshei.com/_next/image?url=https://storage.ayshei.com/prod/public/drafts/94de939e-4358-4d9f-9af9-b189f065950d/web/1_1711347180893.jpeg&amp;w=3840&amp;q=75</g:image_link>
+      <g:brand></g:brand>
+      <g:price>800 AED</g:price>
+      <g:availability>in stock</g:availability>
+      <g:gtin>0020804536345</g:gtin>
+    </item>
   </channel>
 </rss>
