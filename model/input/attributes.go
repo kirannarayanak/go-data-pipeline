@@ -28,6 +28,11 @@ type AdAttributes struct {
 	StepsData []struct {
 		Name string `json:"name"`
 		Data struct {
+			ID struct {
+				Label  string `json:"label"`
+				Value  string `json:"value"`
+				TypeAd string `json:"typeAd"`
+			} `json:"id"`
 			InputSearchValue struct {
 				Value string `json:"value"`
 			} `json:"inputSearchValue"`
@@ -98,6 +103,18 @@ func FetchAds(endpoint, adminSecret string) ([]AdItem, error) {
 		if err != nil {
 			log.Printf("Error unmarshalling attributes for ad ID %s: %v", ad.ID, err)
 			continue
+		}
+
+		// Check if the ad type is an auction and skip it
+		isAuction := false
+		for _, step := range attrs.StepsData {
+			if step.Data.ID.Label == "Ad Type" && (step.Data.ID.TypeAd == "Auctions" || step.Data.ID.TypeAd == "auctions") {
+				isAuction = true
+				break
+			}
+		}
+		if isAuction {
+			continue // Skip this ad
 		}
 
 		// Check for payment method "Online Payment"
