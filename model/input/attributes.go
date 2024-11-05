@@ -1,57 +1,3 @@
-package input
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"log"
-	"time"
-
-	"github.com/machinebox/graphql"
-)
-
-// AdItem represents the structure for storing ad information
-type AdItem struct {
-	ID           string
-	Title        string
-	Description  string
-	Link         string
-	ImageLink    string
-	Brand        string
-	Price        string
-	Availability string
-	CodeNumber   json.Number // Handle GTIN as json.Number
-}
-
-// AdAttributes represents the structure of attributes for each ad
-type AdAttributes struct {
-	StepsData []struct {
-		Name string `json:"name"`
-		Data struct {
-			ID struct {
-				Label  string `json:"label"`
-				Value  string `json:"value"`
-				TypeAd string `json:"typeAd"`
-			} `json:"id"`
-			InputSearchValue struct {
-				Value string `json:"value"`
-			} `json:"inputSearchValue"`
-			Values struct {
-				Brand  string `json:"brand"`
-				Price  string `json:"price"`
-				Images []struct {
-					Src string `json:"src"`
-				} `json:"images"`
-			} `json:"values"`
-			PaymentMethods struct {
-				Data []struct {
-					Value string `json:"value"`
-				} `json:"data"`
-			} `json:"paymentMethods"`
-		} `json:"data"`
-	} `json:"stepsData"`
-}
-
 // FetchAds fetches ads from the Hasura GraphQL endpoint
 func FetchAds(endpoint, adminSecret string) ([]AdItem, error) {
 	client := graphql.NewClient(endpoint)
@@ -71,7 +17,7 @@ func FetchAds(endpoint, adminSecret string) ([]AdItem, error) {
 			code_number
 		}
 	}
-`)
+	`)
 
 	// Calculate the timestamp for the last 24 hours
 	last24Hours := time.Now().Add(-24 * time.Hour).Format(time.RFC3339)
@@ -108,13 +54,13 @@ func FetchAds(endpoint, adminSecret string) ([]AdItem, error) {
 		// Check if the ad type is an auction and skip it
 		isAuction := false
 		for _, step := range attrs.StepsData {
-			if step.Data.ID.Label == "Ad Type" && (step.Data.ID.TypeAd == "Auctions" || step.Data.ID.TypeAd == "auctions") {
+			if step.Name == "ad_type" && (step.Data.ID.TypeAd == "Auctions" || step.Data.ID.TypeAd == "auctions") {
 				isAuction = true
 				break
 			}
 		}
 		if isAuction {
-			continue // Skip this ad
+			continue // Skip this ad if it's an auction
 		}
 
 		// Check for payment method "Online Payment"
@@ -146,11 +92,10 @@ func FetchAds(endpoint, adminSecret string) ([]AdItem, error) {
 				}
 			}
 
-			// Ensure that `imageSrc` is properly formatted without encoding issues
+			// Construct the image URL directly
 			if imageSrc != "" {
-				// Generate the image URL
 				imageSrc = fmt.Sprintf(
-					"https://ayshei.com/_next/image?url=https://storage.ayshei.com/prod/public/drafts/%s/web/%s&amp;w=3840&amp;q=75",
+					"https://ayshei.com/_next/image?url=https://storage.ayshei.com/prod/public/drafts/%s/web/%s&w=3840&q=75",
 					ad.DraftID, imageSrc)
 			}
 
@@ -160,11 +105,11 @@ func FetchAds(endpoint, adminSecret string) ([]AdItem, error) {
 				Title:        title,
 				Description:  ad.Description,
 				Link:         fmt.Sprintf("https://ayshei.com/product/%s", ad.ID),
-				ImageLink:    imageSrc, // Don't encode, leave the raw URL for XML generation
+				ImageLink:    imageSrc,
 				Brand:        brand,
 				Price:        price,
 				Availability: "in stock",
-				CodeNumber:   ad.CodeNumber, // Assign the GTIN here
+				CodeNumber:   ad.CodeNumber,
 			})
 		}
 	}
