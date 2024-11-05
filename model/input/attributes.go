@@ -54,7 +54,7 @@ func FetchAds(endpoint, adminSecret string) ([]AdItem, error) {
 		// Check if the ad type is an auction and skip it
 		isAuction := false
 		for _, step := range attrs.StepsData {
-			if step.Name == "ad_type" && (step.Data.ID.TypeAd == "Auctions" || step.Data.ID.TypeAd == "auctions") {
+			if step.Name == "ad_type" && (step.Data.ID.TypeAd == "Auction" || step.Data.ID.TypeAd == "auctions" || step.Data.ID.TypeAd == "auction" || step.Data.ID.TypeAd == "Auctions"  ) {
 				isAuction = true
 				break
 			}
