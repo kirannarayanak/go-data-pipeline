@@ -1,3 +1,4 @@
+// main.go
 package main
 
 import (
@@ -87,8 +88,6 @@ func main() {
 		// Clean up the description before adding it to the output
 		cleanedDescription := cleanUpDescription(ad.Description)
 		cleanedDescription = escapeSpecialCharacters(cleanedDescription)
-
-		// Process and log other important fields for debugging if neede
 
 		outputAds = append(outputAds, output.Item{
 			ID:           ad.CodeNumber.String(),
