@@ -4,5 +4,16 @@
     <title>Ayshei</title>
     <link>https://ayshei.com/</link>
     <description>Your one-stop shop for the latest fashion items</description>
+    <item>
+      <g:id>9322926850</g:id>
+      <g:title>huawei</g:title>
+      <g:description>New device This product is of high quality and in stock.</g:description>
+      <g:link>https://ayshei.com/product/828ea319-d2fc-49a9-b8cc-faefd5b06a5e</g:link>
+      <g:image_link></g:image_link>
+      <g:brand>Apple iPhone</g:brand>
+      <g:price>55555 AED</g:price>
+      <g:availability>in stock</g:availability>
+      <g:gtin>0093229268504</g:gtin>
+    </item>
   </channel>
 </rss>
